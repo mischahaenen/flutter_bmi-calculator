@@ -13,6 +13,7 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   Gender gender = Gender.FEMALE;
   int height = 160;
+  int weight = 60;
 
   @override
   Widget build(BuildContext context) {
@@ -101,10 +102,56 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: new BMICard(color: kActiveCardColor),
+                  child: new BMICard(
+                    color: kActiveCardColor,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Weight',
+                          style: kLabelTextStyle,
+                        ),
+                        Text(weight.toString(), style: kNumberTextStyle),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            FloatingActionButton(
+                              backgroundColor: Color(0xFF4C4F5E),
+                              child: Icon(
+                                Icons.add,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {},
+                            ),
+                            SizedBox(width: 10.0),
+                            FloatingActionButton(
+                              backgroundColor: Color(0xFF4C4F5E),
+                              child: Icon(
+                                Icons.add,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {},
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
                 ),
                 Expanded(
-                  child: new BMICard(color: kActiveCardColor),
+                  child: new BMICard(
+                    color: kActiveCardColor,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Weight',
+                          style: kLabelTextStyle,
+                        ),
+                        Text(weight.toString(), style: kNumberTextStyle)
+                      ],
+                    ),
+                  ),
                 )
               ],
             ),
