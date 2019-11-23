@@ -1,13 +1,9 @@
 import 'package:bmi_calculator/bmi_card.dart';
+import 'package:bmi_calculator/constants.dart';
 import 'package:bmi_calculator/gender.dart';
 import 'package:bmi_calculator/gender_icon_content.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-const bottomContainerHight = 80.0;
-const activeCardColor = Color(0xFF1D1E33);
-const inactiveCardColor = Color(0xFF111328);
-const bottomContainerColor = Color(0xFFEB1555);
 
 class InputPage extends StatefulWidget {
   @override
@@ -15,8 +11,8 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  Color maleCardColor = inactiveCardColor;
-  Color femaleCardColor = inactiveCardColor;
+  Gender gender = Gender.FEMALE;
+  int height = 160;
 
   @override
   Widget build(BuildContext context) {
@@ -24,67 +20,101 @@ class _InputPageState extends State<InputPage> {
         appBar: AppBar(
           title: Center(child: Text('BMI CALCULATOR')),
         ),
-        body: Column(children: <Widget>[
+        body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
           Expanded(
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () {
+                  child: new BMICard(
+                    onPressed: () {
                       setState(() {
-                        selectGender(Gender.MALE);
+                        gender = Gender.MALE;
                       });
                     },
-                    child: new BMICard(
-                      color: maleCardColor,
-                      child: new GenderIconContent(gender: Gender.MALE),
-                    ),
+                    color: gender == Gender.MALE ? kActiveCardColor : kInactiveCardColor,
+                    child: new GenderIconContent(gender: Gender.MALE),
                   ),
                 ),
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () {
+                  child: new BMICard(
+                    onPressed: () {
                       setState(() {
-                        selectGender(Gender.FEMALE);
+                        gender = Gender.FEMALE;
                       });
                     },
-                    child: new BMICard(
-                      color: femaleCardColor,
-                      child: new GenderIconContent(gender: Gender.FEMALE),
-                    ),
+                    color: gender == Gender.FEMALE ? kActiveCardColor : kInactiveCardColor,
+                    child: new GenderIconContent(gender: Gender.FEMALE),
                   ),
                 )
               ],
             ),
           ),
           Expanded(
-            child: new BMICard(color: activeCardColor),
+            child: new BMICard(
+              color: kActiveCardColor,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'HEIGHT',
+                    style: kLabelTextStyle,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: <Widget>[
+                      Text(
+                        height.toString(),
+                        style: kNumberTextStyle,
+                      ),
+                      Text(
+                        'cm',
+                        style: kLabelTextStyle,
+                      )
+                    ],
+                  ),
+                  SliderTheme(
+                    data: SliderTheme.of(context).copyWith(
+                        activeTrackColor: Colors.white,
+                        inactiveTrackColor: Color(0xFF8D8E98),
+                        thumbColor: Color(0xFFEB1555),
+                        overlayColor: Color(0xFFEB1555),
+                        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
+                        overlayShape: RoundSliderOverlayShape(overlayRadius: 20.0)),
+                    child: Slider(
+                      value: height.toDouble(),
+                      min: kMinHeight,
+                      max: kMaxHeight,
+                      onChanged: (double newheight) {
+                        setState(() {
+                          height = newheight.round();
+                        });
+                      },
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
           Expanded(
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: new BMICard(color: activeCardColor),
+                  child: new BMICard(color: kActiveCardColor),
                 ),
                 Expanded(
-                  child: new BMICard(color: activeCardColor),
+                  child: new BMICard(color: kActiveCardColor),
                 )
               ],
             ),
           ),
           Container(
-            color: bottomContainerColor,
+            color: kBottomContainerColor,
             margin: EdgeInsets.only(top: 15.0),
             width: double.infinity,
-            height: bottomContainerHight,
+            height: kBottomContainerHight,
           ),
         ]));
-  }
-
-  void selectGender(Gender gender) {
-    // Toggle Female Card
-    femaleCardColor = gender == Gender.FEMALE ? activeCardColor : inactiveCardColor;
-    // Toggle Male Card
-    maleCardColor = gender == Gender.MALE ? activeCardColor : inactiveCardColor;
   }
 }
