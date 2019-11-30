@@ -1,5 +1,5 @@
-import 'package:bmi_calculator/constants.dart';
-import 'package:bmi_calculator/gender.dart';
+import 'package:bmi_calculator/models/constants.dart';
+import 'package:bmi_calculator/models/gender.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -15,7 +15,7 @@ class GenderIconContent extends StatelessWidget {
       children: <Widget>[
         Icon(
           gender == Gender.FEMALE ? FontAwesomeIcons.venus : FontAwesomeIcons.mars,
-          size: 80.0,
+          size: 60.0,
         ),
         SizedBox(
           height: 15.0,
